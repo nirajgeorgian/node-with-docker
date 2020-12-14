@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: aerospike
+  name: aerospike
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: aerospike
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: aerospike
+    spec:
+      containers:
+        - image: aerospike
+          name: aerospike
+          ports:
+            - containerPort: 3000
+            - containerPort: 3001
+            - containerPort: 3002
+            - containerPort: 3003
+          resources: {}
+      restartPolicy: Always
+status: {}

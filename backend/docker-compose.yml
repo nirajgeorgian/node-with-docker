@@ -1,0 +1,45 @@
+# docker-compose.yml
+version: "3"
+services:
+  app:
+    restart: always
+    # build: .
+    image: your_dockerhub_username/node-kubernetes
+    depends_on:
+      - postgres
+    environment:
+      NODE_ENV: development
+      DATABASE_USERNAME: user
+      DATABASE_PASSWORD: password
+      DATABASE_DATABASE: test
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      JWT_SECRET: dododuckN9
+      AEROSPIKE_HOSTS: aerospike:3000
+      PORT: 8080
+    ports:
+      - "8080:8080"
+    command: npm run start
+    external_links:
+      - aerospike
+      - postgres
+    volumes:
+      - .:/app/
+      - /app/node_modules
+
+  aerospike:
+    image: aerospike
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+      - "3002:3002"
+      - "3003:3003"
+
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: test
